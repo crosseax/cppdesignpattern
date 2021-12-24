@@ -20,7 +20,7 @@ struct ProductFilter {
     // if have n criteria, then 2^n-1 functions
     // we are modifying existing code, and this isn't great
 
-    std::vector<Product*> by_color(std::vector<Product*> items, Color color) {
+    std::vector<Product*> by_color(std::vector<Product*> items, const Color color) {
         std::vector<Product*> result;
         for (auto& i : items) {
             if (i->color == color) {
@@ -30,7 +30,7 @@ struct ProductFilter {
         return result;
     }
 
-    std::vector<Product*> by_size(std::vector<Product*> items, Size size) {
+    std::vector<Product*> by_size(std::vector<Product*> items, const Size size) {
         std::vector<Product*> result;
         for (auto& i : items) {
             if (i->size == size) {
@@ -40,7 +40,7 @@ struct ProductFilter {
         return result;
     }
 
-    std::vector<Product*> by_size_and_color(std::vector<Product*> items, Size size, Color color) {
+    std::vector<Product*> by_size_and_color(std::vector<Product*> items, const Size size, const Color color) {
         std::vector<Product*> result;
         for (auto& i : items) {
             if (i->size == size && i->color == color) {
@@ -51,13 +51,22 @@ struct ProductFilter {
     }
 };
 
+// acts like a prototype
+template <typename T> struct AndSpecification;
 template <typename T> 
 struct Specification {
+    virtual ~Specification() = default;
     virtual bool is_satisfied(T* item) = 0;
+
+    // overload && operator for better/shorter code in main
+    AndSpecification<T> operator&& (Specification<T>&& other) {
+        return AndSpecification<T>(*this, other);
+    }
 };
 
 template <typename T> 
 struct Filter {
+    virtual ~Filter() = default;
     virtual std::vector<T*> filter(std::vector<T*> items, Specification<T>& spec) = 0;
 };
 
@@ -148,6 +157,17 @@ int main (void)
     AndSpecification<Product> green_and_large (green, large);
     for (auto& item : bf.filter(items, green_and_large)) {
         std::cout << "[BetterFilter] " << item->name << " is green and large" << std::endl;
+    }
+
+
+
+    std::cout << std::endl;
+
+
+
+    auto specs = ColorSpecification(Color::green) && SizeSpecification(Size::large);
+    for (auto& item : bf.filter(items, specs)) {
+        std::cout << "[BetterFilter && overload] " << item->name << " is green and large" << std::endl;
     }
 
     return 0;
