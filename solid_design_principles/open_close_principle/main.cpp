@@ -89,6 +89,19 @@ struct SizeSpecification : Specification<Product> {
     }
 };
 
+template <typename T>
+struct AndSpecification : Specification<T> {
+    Specification<T>& first;
+    Specification<T>& second;
+    
+    AndSpecification (Specification<T>& first, Specification<T>& second)
+        : first {first}, second {second} {}
+
+    bool is_satisfied(T* item) override {
+        return first.is_satisfied(item) && second.is_satisfied(item);
+    }
+};
+
 int main (void)
 {
     Product apple {"Apple", Color::green, Size::small};
@@ -101,27 +114,40 @@ int main (void)
 
     std::vector<Product*> green_things = pf.by_color(items, Color::green);
     for (auto& item : green_things) {
-        std::cout << item->name << " is green" << std::endl;
+        std::cout << "[Filter] " << item->name << " is green" << std::endl;
     }
     
     std::vector<Product*> large_things = pf.by_size(items, Size::large);
     for (auto& item : large_things) {
-        std::cout << item->name << " is large" << std::endl;
+        std::cout << "[Filter] " << item->name << " is large" << std::endl;
     }
 
     std::vector<Product*> green_and_large_things = pf.by_size_and_color(items, Size::large, Color::green);
     for (auto& item : green_and_large_things) {
-        std::cout << item->name << " is green and large" << std::endl;
+        std::cout << "[Filter] " << item->name << " is green and large" << std::endl;
     }
-    
+
+
 
     std::cout << std::endl;
 
+
+
     BetterFilter bf;
+
     ColorSpecification green (Color::green);
-    
     for (auto& item : bf.filter(items, green)) {
-        std::cout << item->name << " is green using better filter" << std::endl;
+        std::cout << "[BetterFilter] " << item->name << " is green" << std::endl;
+    }
+
+    SizeSpecification large (Size::large);
+    for (auto& item : bf.filter(items, large)) {
+        std::cout << "[BetterFilter] " << item->name << " is large" << std::endl;
+    }
+
+    AndSpecification<Product> green_and_large (green, large);
+    for (auto& item : bf.filter(items, green_and_large)) {
+        std::cout << "[BetterFilter] " << item->name << " is green and large" << std::endl;
     }
 
     return 0;
