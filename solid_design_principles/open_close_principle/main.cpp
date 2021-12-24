@@ -75,9 +75,17 @@ struct BetterFilter : Filter<Product> {
 
 struct ColorSpecification : Specification<Product> {
     Color color;
-    ColorSpecification(Color color) : color {color} {}
+    ColorSpecification(const Color color) : color {color} {}
     bool is_satisfied(Product* item) override {
         return item->color == color;
+    }
+};
+
+struct SizeSpecification : Specification<Product> {
+    Size size;
+    SizeSpecification(const Size size) : size {size} {}
+    bool is_satisfied(Product* item) override {
+        return item->size == size;
     }
 };
 
@@ -90,11 +98,22 @@ int main (void)
     std::vector<Product*> items { &apple, &tree, &house };
     
     ProductFilter pf;
-    std::vector<Product*> green_things = pf.by_color(items, Color::green);
 
+    std::vector<Product*> green_things = pf.by_color(items, Color::green);
     for (auto& item : green_things) {
         std::cout << item->name << " is green" << std::endl;
     }
+    
+    std::vector<Product*> large_things = pf.by_size(items, Size::large);
+    for (auto& item : large_things) {
+        std::cout << item->name << " is large" << std::endl;
+    }
+
+    std::vector<Product*> green_and_large_things = pf.by_size_and_color(items, Size::large, Color::green);
+    for (auto& item : green_and_large_things) {
+        std::cout << item->name << " is green and large" << std::endl;
+    }
+    
 
     std::cout << std::endl;
 
