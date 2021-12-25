@@ -18,16 +18,29 @@ public:
         return height;
     }
 
-    void set_width (int width) {
+    virtual void set_width (int width) {
         Rectangle::width = width;
     }
 
-    void set_height (int height) {
+    virtual void set_height (int height) {
         Rectangle::height = height;
     }
 
     int calc_area() const { 
         return width * height; 
+    }
+};
+
+class Square : public Rectangle {
+public:
+    Square(int side) : Rectangle {side, side} {}
+
+    void set_width(int width) override {
+        this->width = this->height = width;
+    }
+
+    void set_height(int height) override {
+        this->width = this->height = height;
     }
 };
 
