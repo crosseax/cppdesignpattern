@@ -3,6 +3,18 @@
 // The goal of this principle is to specify
 // that subtypes should be immediately substitutable for their base types
 
+
+// Basically Liskov Substitution Principle:
+// If you have a function which takes a base class
+// any derived class hsould be able to be substituted into this function without any problems
+
+// The idea is that when substitute a derived class
+// you should be able to substitute it into any location 
+// where base class is being used
+// so below, the process class is used for base class Rectangle
+// but not suitable for derived Square class
+// This is then a violation of Liskov Substitution Principle
+
 class Rectangle {
 protected:
     int width, height;
@@ -52,6 +64,12 @@ void process (Rectangle& r) {
               << ", got " << r.calc_area() << std::endl;
 }
 
+// you could do
+struct RectangleFactory {
+    static Rectangle create_rectangle(int width, int height);
+    static Rectangle create_square (int side);
+};
+
 
 int main (void)
 {
@@ -59,6 +77,10 @@ int main (void)
     std::cout << r.calc_area() << std::endl;
 
     process(r);
+
+    Square sq {5};
+    process(sq); // when set height to 10, also set width to 10
+    // broken the liskov sustitution principle, by broken the setter method
 
 
     return 0;
