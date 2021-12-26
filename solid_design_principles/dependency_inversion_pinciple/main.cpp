@@ -43,8 +43,22 @@ struct Relationships {
 // if you want to perform a research on a data,
 // this will be called a High-level module
 struct Research {
-    
+    // below is the worst thing to do
+    // because it violates point A above
+    Research(Relationships& relationships) {
+        // and it's accessing the low-level module's data
+        auto& relations = relationships.relations;
+        for (auto&& [first, rel, second] : relations) { // for C++17
+            if (first.name == "John" && rel == Relationship::parent) {
+                std::cout << "John has a child called " << second.name << std::endl;
+            }
+        }
+    }
+    // if the low-level decides to change storage
+    // like hiding the relations by making it private
+    // then this high level module would be completely broken
 };
+
 
 int main (void)
 {
@@ -55,7 +69,7 @@ int main (void)
     relationships.add_parent_and_child(parent, child1);
     relationships.add_parent_and_child(parent, child2);
 
-
+    Research _(relationships);
 
     return 0;
 }
