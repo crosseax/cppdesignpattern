@@ -42,9 +42,10 @@ struct HtmlBuilder {
         root.name = root_name;
     }
 
-    void add_child (std::string child_name, std::string child_text) {
+    HtmlBuilder& add_child (std::string child_name, std::string child_text) {
         HtmlElement e {child_name, child_text};
         root.elements.emplace_back(e);
+        return *this;
     }
 
     std::string str() const {
@@ -80,8 +81,7 @@ int main (void)
     std::cout << "===Using Builder===" << std::endl;
 
     HtmlBuilder builder {"ul"};
-    builder.add_child("li", "hello");
-    builder.add_child("li", "world");
+    builder.add_child("li", "hello").add_child("li", "world");
 
     std::cout << builder.str() << std::endl;
 
