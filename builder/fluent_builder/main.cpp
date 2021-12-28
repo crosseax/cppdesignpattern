@@ -78,7 +78,7 @@ int main (void)
 
     std::cout << std::endl;
 
-    std::cout << "===Using Builder===" << std::endl;
+    std::cout << "===Using Fluent Builder===" << std::endl;
 
     HtmlBuilder builder {"ul"};
     builder.add_child("li", "hello").add_child("li", "world");
