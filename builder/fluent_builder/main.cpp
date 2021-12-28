@@ -7,6 +7,8 @@
 #include <sstream>
 #include <memory>
 
+struct HtmlBuilder;
+
 // what you would typically do is 
 // start creating object oriented structures 
 // which represent the different parts of the HTML that you're building
@@ -33,6 +35,14 @@ struct HtmlElement {
         oss << i << "</" << name << ">" << std::endl;
         return oss.str();
     }
+
+    static HtmlBuilder create(std::string root_name) {
+        return {root_name};
+    }
+
+    static std::unique_ptr<HtmlBuilder> build2(std::string root_name) {
+        return std::make_unique<HtmlBuilder>(root_name);
+    }
 };
 
 struct HtmlBuilder {
@@ -48,8 +58,24 @@ struct HtmlBuilder {
         return *this;
     }
 
-    std::string str() const {
+    HtmlBuilder* add_child_2 (std::string child_name, std::string child_text) {
+        HtmlElement e {child_name, child_text};
+        root.elements.emplace_back(e);
+        return this;
+    }
+
+    HtmlElement build() {
+        return root;
+    }
+
+    std::string str() {
         return root.str();
+    }
+
+    operator HtmlElement() const {
+        return root;
+        // can also do below
+        // return std::move(root);
     }
 };
 
@@ -84,6 +110,12 @@ int main (void)
     builder.add_child("li", "hello").add_child("li", "world");
 
     std::cout << builder.str() << std::endl;
+
+    auto builder2 = HtmlElement::create("ul").add_child("li", "another one");
+    HtmlElement elem = HtmlElement::create("ul").add_child("li", "another one");
+    // HtmlElement elem2 = HtmlElement::create("ul")->add_child_2("li", "another one");
+
+    HtmlElement::create("ul").add_child("once another","try").build();
 
     return 0;
 }
