@@ -36,6 +36,8 @@ struct Tag {
             for (const auto& child : tag.children) {
                 os << child;
             }
+
+            os << "</" << tag.name << ">" << std::endl;
         }
 
         return os;
@@ -60,9 +62,22 @@ struct P : Tag {
         : Tag{"p", children} {}
 };
 
+struct IMG : Tag {
+    explicit IMG(const std::string& url) 
+        : Tag{"img", ""} {
+            attributes.emplace_back(std::make_pair("src", url));
+        }
+};
+
 int main (void)
 {
+    std::cout <<
 
+        P {
+            IMG {"http://pokemon.com/pikachu.png"}
+        }
+
+        << std::endl;
 
     return 0;
 }
