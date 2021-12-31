@@ -1,0 +1,14 @@
+Builder 
+
+A builder is a separate component whose only purpose is to build an object
+
+Can either give builder a constructor 
+    thereby letting it exist as a separate standalone component 
+    that somebody instantiates and then use this build something
+or return it via a static function or static getter 
+    from the component that you're trying to build
+
+To make a builder fluent, which is a good idea, because you can chain them together, return *this
+
+Different facets of an object can be built with different builders working in tandem via a base class
+    this is becuase they share a base class that allows the client to switch from one builder to another 
