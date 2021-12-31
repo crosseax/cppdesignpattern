@@ -19,7 +19,7 @@ struct Class {
     std::vector<Field> fields;
 
     friend std::ostream& operator<<(std::ostream& os, const Class& obj) {
-        os << "class " << obj.name << "\n{\n";
+        os << "class " << obj.name << " {\n";
         for (auto&& field : obj.fields) {
             os << "  " << field << "\n";
         }
