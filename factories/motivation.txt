@@ -1,0 +1,18 @@
+Factories
+
+Motivation for this
+
+Constructor is not descriptive
+    Name mandated by name of containing type
+    Cannot overload with same sets of arguments with different names
+    Can turn into "opttional parameter hell"
+
+Object creation (non-piecewise, unlike Builder) can be ousourced to 
+    A separate function (Factory Method)
+    That may exist in a separate class (Factory)
+    Can create hierarchy of factories with Abstract Factory
+
+
+Factory:
+    Acomponent responsible solely for the wholesale creation of objects
+    (not piecewise, which is left to Builder)
