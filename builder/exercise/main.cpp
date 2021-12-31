@@ -1,21 +1,21 @@
 #include <string>
 #include <ostream>
 #include <iostream>
-using namespace std;
+#include <vector>
 
 class CodeBuilder
 {
 public:
-    CodeBuilder(const string& class_name) {
+    CodeBuilder(const std::string& class_name) {
         // todo
     }
 
-    CodeBuilder& add_field(const string& name, const string& type) {
+    CodeBuilder& add_field(const std::string& name, const std::string& type) {
         // todo
     }
 
-    friend ostream& operator<<(ostream& os, const CodeBuilder& obj) {
-
+    friend std::ostream& operator<<(std::ostream& os, const CodeBuilder& obj) {
+        os << "class " << 
     }
 };
 
