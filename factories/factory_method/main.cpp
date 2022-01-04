@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES // for M_PI_4
+
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -13,40 +15,43 @@ enum class PointType {
     polar
 };
 
-struct Point {
+class Point {
+private:
+    Point(float x, float y) : x{x}, y{y} {}
+
+public:
     float x, y;
 
-    // Point(float x, float y) : x{x}, y{y} {}
+    // This implementation below is called a Factory method
+    // Essentially, you have these static methods
+    // which allow you to construct a particular object and they use private constructor
+    // So when you return {}, 
+    // you are essentailly returning point with {} in C++
+    // so like 
+    // return Point {x, y};
+    static Point NewCartesian(float x, float y) {
+        return {x, y};
+    }
 
-    // at this point it is Cartesian coordinates
-    // and what if I want to initiazie it from polar coordinates
+    static Point NewPolar(float r, float theta) {
+        return {r*cos(theta), r*sin(theta)};
+    }
 
-    // Point(float rho, float theta) {
-    //     // this wont work cuz the args are same as constructor above, two floats
-
-    // }
-
-    //! \param a this is either x or rho
-    //! \param b this is either y or theta
-    Point (float a, float b, PointType type = PointType::cartesian) {
-        if (type == PointType::cartesian) {
-            x = a;
-            y = b;
-        } else {
-            x = a * cos(b);
-            y = a * sin(b);
-        }
+    friend std::ostream& operator<< (std::ostream& os, const Point& point) {
+        os << "x: " << point.x << ", y: " << point.y;
+        return os;
     }
 };
 
-// So far the problem,
-// this is what factory is all about
-// it's about making sure that the interface to a particular type provides is sensible
-// it's understandable, immediately consumable by the client
 
 int main (void)
 {
+    // Now what you can do:
+    auto p = Point::NewPolar(5, M_PI_4);
 
+    std::cout << "Input(polar coordinates): r = 5, theta = pi/4" << std::endl;
+    std::cout << "Output(Cartesian coordinates): " << std::endl;
+    std::cout << p << std::endl;
 
     return 0;
 }
