@@ -16,39 +16,46 @@ enum class PointType {
 };
 
 class Point {
-public:
-    // friend class PointFactory; // this violates Open-Close Principle
     Point(float x, float y) : x{x}, y{y} {}
-
 
 public:
     float x, y;
-
 
     friend std::ostream& operator<< (std::ostream& os, const Point& point) {
         os << "x: " << point.x << ", y: " << point.y;
         return os;
     }
-};
 
-struct PointFactory {
-    static Point NewCartesian(float x, float y) {
-        return {x, y};
-    }
 
-    static Point NewPolar(float r, float theta) {
-        return {r*cos(theta), r*sin(theta)};
-    }
+    // There is no hint for the user to use factory
+    // Point and PointFactory has no obvious link or connection
+    // So people sometimes put the factory inside to give user a hint
+
+    // And this also solve the second problem which is breaking the OCP
+
+    // this
+    // the inner class have the access of the private member of the outter class
+    // so it can use private constructor no problem
+    class PointFactory {
+    public:
+        static Point NewCartesian(float x, float y) {
+            return {x, y};
+        }
+
+        static Point NewPolar(float r, float theta) {
+            return {r*cos(theta), r*sin(theta)};
+        }
+    };
+
 };
 
 
 int main (void)
 {
-    // You can create a PointFactory
-    PointFactory pf;
-
     // Now you can
-    auto p = PointFactory::NewPolar(5, M_PI_4);
+    auto p = Point::PointFactory::NewPolar(5, M_PI_4);
+
+    // you can also do the singleton method, which is going to be covered later
 
     std::cout << "Input(polar coordinates): r = 5, theta = pi/4" << std::endl;
     std::cout << "Output(Cartesian coordinates): " << std::endl;
