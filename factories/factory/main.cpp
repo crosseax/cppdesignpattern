@@ -17,25 +17,20 @@ enum class PointType {
 
 class Point {
 private:
+    // unpleasant chagne
+    friend class PointFactory; // this violates Open-Close Principle
+    // friend class mechanism is hostile to OCP
+    // because we have to go into the class already created to redo the change
+
+    // if you dont want to violate OCP
+    // you can make everything public, including constructor
+
     Point(float x, float y) : x{x}, y{y} {}
 
+    
 public:
     float x, y;
 
-    // This implementation below is called a Factory method
-    // Essentially, you have these static methods
-    // which allow you to construct a particular object and they use private constructor
-    // So when you return {}, 
-    // you are essentailly returning point with {} in C++
-    // so like 
-    // return Point {x, y};
-    static Point NewCartesian(float x, float y) {
-        return {x, y};
-    }
-
-    static Point NewPolar(float r, float theta) {
-        return {r*cos(theta), r*sin(theta)};
-    }
 
     friend std::ostream& operator<< (std::ostream& os, const Point& point) {
         os << "x: " << point.x << ", y: " << point.y;
@@ -43,11 +38,29 @@ public:
     }
 };
 
+// Separation of concern
+// this is going to be concrete factory, not abstract
+// this is how you would implement a factory
+// just an ordinary class which contains a couple of methods for the construction of something else
+// and it has to be a friend class if you want to access the private member
+struct PointFactory {
+    static Point NewCartesian(float x, float y) {
+        return {x, y};
+    }
+
+    static Point NewPolar(float r, float theta) {
+        return {r*cos(theta), r*sin(theta)};
+    }
+};
+
 
 int main (void)
 {
-    // Now what you can do:
-    auto p = Point::NewPolar(5, M_PI_4);
+    // You can create a PointFactory
+    PointFactory pf;
+
+    // Now you can
+    auto p = PointFactory::NewPolar(5, M_PI_4);
 
     std::cout << "Input(polar coordinates): r = 5, theta = pi/4" << std::endl;
     std::cout << "Output(Cartesian coordinates): " << std::endl;
