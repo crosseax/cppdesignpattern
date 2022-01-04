@@ -10,6 +10,7 @@
 #include <cmath>
 
 #include "HotDrinkFactory.h"
+#include "DrinkFactory.h"
 
 // abstract factories
 // families of factories which use inheritance 
@@ -29,8 +30,13 @@ std::unique_ptr<HotDrink> make_drink (std::string type) {
 
 int main (void)
 {
-    auto d = make_drink("tea");
+    // this works, but not using the abstract factory
+    make_drink("tea");
 
+
+    // from now on, using abstract factory
+    DrinkFactory df;
+    auto c = df.make_drink("coffee");
 
 
     return 0;

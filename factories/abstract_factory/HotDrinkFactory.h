@@ -2,6 +2,7 @@
 #include "HotDrink.h"
 
 struct HotDrinkFactory { // This is the Abstract Factory
+    virtual ~HotDrinkFactory() = default;
     virtual std::unique_ptr<HotDrink> make() const = 0;
 };
 
