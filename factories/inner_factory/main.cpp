@@ -17,15 +17,14 @@ enum class PointType {
 
 class Point {
     Point(float x, float y) : x{x}, y{y} {}
+    float x, y;
+    class PointFactory;
 
 public:
-    float x, y;
-
     friend std::ostream& operator<< (std::ostream& os, const Point& point) {
         os << "x: " << point.x << ", y: " << point.y;
         return os;
     }
-
 
     // There is no hint for the user to use factory
     // Point and PointFactory has no obvious link or connection
@@ -33,10 +32,17 @@ public:
 
     // And this also solve the second problem which is breaking the OCP
 
-    // this
+    // now for the singleton showcase
+    // make a instance of the factory 
+    // and expose that instance directly from the point
+    static PointFactory Factory;
+
+    // This
     // the inner class have the access of the private member of the outter class
     // so it can use private constructor no problem
+private:
     class PointFactory {
+        PointFactory() {}
     public:
         static Point NewCartesian(float x, float y) {
             return {x, y};
@@ -46,14 +52,14 @@ public:
             return {r*cos(theta), r*sin(theta)};
         }
     };
-
 };
 
 
 int main (void)
 {
     // Now you can
-    auto p = Point::PointFactory::NewPolar(5, M_PI_4);
+    // auto p = Point::PointFactory::NewPolar(5, M_PI_4);
+    auto p = Point::Factory.NewPolar(5, M_PI_4);
 
     // you can also do the singleton method, which is going to be covered later
 
