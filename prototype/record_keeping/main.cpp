@@ -75,7 +75,7 @@ int main (void)
     std::cout << std::endl;
 
     Contact2 john2 {"John2 Doe", new Address{"123 East Dr", "London", 123}};
-    Contact2 jane2 = john2;
+    Contact2 jane2 = john2; // you are copying the pointer value, so this is a shallow copy
     jane2.name = "Jane2 Smith";
     jane2.address->suite = 103;
 
