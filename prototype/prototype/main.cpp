@@ -36,8 +36,7 @@ struct Contact {
 
     Contact (const Contact& other) 
         : name {other.name}, 
-          address {new Address {other.address->street, other.address->city, other.address->suite}}
-        {}
+          address {new Address {other.address->street, other.address->city, other.address->suite}} {}
 
     friend std::ostream& operator<< (std::ostream& os, const Contact contact) {
         os << "[Name]: " << contact.name
@@ -51,7 +50,9 @@ struct Contact {
 int main (void)
 {
     Contact john {"John Doe", new Address{"123 East Dr", "London", 123}};
-    Contact jane = john;
+    Contact jane{john};
+    // or Contact jane = john;
+    
 
     jane.name = "Jane Smith";
     jane.address->suite = 103;
