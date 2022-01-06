@@ -43,15 +43,15 @@ struct Contact2 {
     std::string name;
     Address* address;
 
-    Contact (const std::string& name, Address* address) 
+    Contact2 (const std::string& name, Address* address) 
         : name {name}, address {address} {}
 
     // problems: 
         // who owns the pointer and who deletes it
 
-    friend std::ostream& operator<< (std::ostream& os, const Contact contact) {
-        os << "[Name]: " << contact.name
-           << "\n[Address]: " << contact.address;
+    friend std::ostream& operator<< (std::ostream& os, const Contact2 contact2) {
+        os << "[Name]: " << contact2.name
+           << "\n[Address]: " << contact2.address;
         return os;
     }
 };
@@ -73,6 +73,15 @@ int main (void)
     std::cout << jane << std::endl;
 
     std::cout << std::endl;
+
+    Contact2 john2 {"John2 Doe", new Address{"123 East Dr", "London", 123}};
+    Contact2 jane2 = john2;
+    jane2.name = "Jane2 Smith";
+    jane2.address->suite = 103;
+
+    std::cout << john2 << std::endl;
+    std::cout << jane2 << std::endl;
+    std::cout << "Issue: Outputing memory address instead of values" << std::endl;
 
     return 0;
 }
