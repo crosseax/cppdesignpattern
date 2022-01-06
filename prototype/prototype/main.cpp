@@ -31,9 +31,17 @@ struct Contact {
     Contact (const std::string& name, Address* address) 
         : name {name}, address {address} {}
 
+    // a solution, for deep copy instead of shallow copy
+    // is copy constructor
+
+    Contact (const Contact& other) 
+        : name {other.name}, 
+          address {new Address {other.address->street, other.address->city, other.address->suite}}
+        {}
+
     friend std::ostream& operator<< (std::ostream& os, const Contact contact) {
         os << "[Name]: " << contact.name
-           << "\n[Address]: " << contact.address;
+           << "\n[Address]: " << *contact.address;
         return os;
     }
 };
