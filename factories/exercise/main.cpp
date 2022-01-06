@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include "gtest/gtest.h"
 
 
 struct Person {
@@ -8,8 +9,9 @@ struct Person {
 };
 
 class PersonFactory {
+    int id{0};
 public:
     Person create_person(const std::string& name) {
-        // todo
+        return {id++, name}
     }
 };
