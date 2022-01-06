@@ -16,6 +16,10 @@ struct Address {
     Address (const std::string& street, const std::string& city, int suite)
         : street {street}, city {city}, suite{suite} {}
 
+    // another approach, copy constructor here
+    Address (const Address& other) 
+        : street {other.street}, city {other.city}, suite {other.suite} {}
+
     friend std::ostream& operator<< (std::ostream& os, const Address& address) {
         os << "Street: " << address.street 
            << "; City: " << address.city
@@ -36,7 +40,8 @@ struct Contact {
 
     Contact (const Contact& other) 
         : name {other.name}, 
-          address {new Address {other.address->street, other.address->city, other.address->suite}} {}
+        //   address {new Address {other.address->street, other.address->city, other.address->suite}} {}
+          address {new Address {*other.address}} {}
 
     friend std::ostream& operator<< (std::ostream& os, const Contact contact) {
         os << "[Name]: " << contact.name
