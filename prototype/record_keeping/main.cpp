@@ -51,7 +51,7 @@ struct Contact2 {
 
     friend std::ostream& operator<< (std::ostream& os, const Contact2 contact2) {
         os << "[Name]: " << contact2.name
-           << "\n[Address]: " << contact2.address;
+           << "\n[Address]: " << *contact2.address;
         return os;
     }
 };
@@ -82,6 +82,7 @@ int main (void)
     std::cout << john2 << std::endl;
     std::cout << jane2 << std::endl;
     std::cout << "Issue: Outputing memory address instead of values" << std::endl;
+    std::cout << "Issue2: Changing the Copy also changes the original" << std::endl;
 
     return 0;
 }
