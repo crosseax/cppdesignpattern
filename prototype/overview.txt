@@ -1,0 +1,17 @@
+Prototype
+
+A prototype design pattern is all about object copying
+Apartially of fully initiaized object that you copy (clone) and make use of
+
+
+Motivation
+    - Complicated objects are NOT designed from scratch
+        essentially they reiterate existing designs, making them better
+    - An existing (partially or fully constructed) design is a Prototype
+    - We make a copy (clone) the prototype and customize it
+        requires 'deep copy' support
+        a point you're copying all the object references by making new objects which replicate the state of those references
+        and you doing it recursively
+        so changing the object does NOT affect the object it just copied
+    - We have to make cloning convenient (e.g. via factory)
+
