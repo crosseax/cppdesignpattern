@@ -55,6 +55,10 @@ struct Contact {
 int main (void)
 {
     Contact john {"John Doe", new Address{"123 East Dr", "London", 123}};
+    // so here, john is acting like a prototype,
+    // and we replicate the prototype using copy constructor
+    // then customize the copied instance
+    
     Contact jane{john};
     // or Contact jane = john;
     
