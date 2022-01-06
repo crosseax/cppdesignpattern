@@ -1,0 +1,16 @@
+Factories 
+
+A factory method is a static method that creates objects
+
+A factory can take care of object creation
+    so it's a separate class/component which can take care exclusively of the object creation 
+    so this is kind of the single responsibility principle taken to its limit
+    because you taken an object, and the constructor isn't good enough, so you use factory
+
+A factory can be external or reside inside the object as an inner class
+    as a nested class, there're certain benefits such as access to the private member etc.
+    otherwise you're declaring the factory to be a friend class of whatever you're creating (but this could potentially break OCP which is not good)
+
+Hierarchies of factories can be used to create related objects
+    not very common nowadays
+    the second half of the design pattern of factory according to Gang of Four
