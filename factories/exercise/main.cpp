@@ -2,17 +2,14 @@
 #include <iostream>
 
 
-struct Person
-{
-  int id;
-  std::string name;
+struct Person {
+    int id;
+    std::string name;
 };
 
-class PersonFactory
-{
+class PersonFactory {
 public:
-  Person create_person(const std::string& name)
-  {
-    // todo
-  }
+    Person create_person(const std::string& name) {
+        // todo
+    }
 };
