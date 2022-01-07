@@ -52,27 +52,33 @@ struct Contact {
 
 // how to give a prototype of anything?
 // one idea is to just make a global variable
-Contact main {"", new Address{"123 East Dr", "London", 0}};
+Contact main_proto {"", new Address{"123 East Dr", "London", 0}};
+
+
+// another solution, if you would be more general
+// and hide relative things like constructor or so
+// then you build a prototype factory
+struct EmployeeFactory {
+    static std::unique_ptr<Contact> new_main_office_employee (const std::string name, const int suite) {
+        static Contact p{"", new Address{"123 East Dr", "London", 0}};
+        return new_employee(name, suite, p);
+    } 
+private:
+    static std::unique_ptr<Contact> new_employee (const std::string name, const int suite, const Contact& prototype) {
+        auto result = std::make_unique<Contact> (prototype);
+        result->name = name;
+        result->address->suite = suite;
+        return result;
+    }
+};
+
 
 
 int main (void)
 {
-    Contact john {"John Doe", new Address{"123 East Dr", "London", 123}};
-    // so here, john is acting like a prototype,
-    // and we replicate the prototype using copy constructor
-    // then customize the copied instance
-    
-    Contact jane{john};
-    // or Contact jane = john;
-    
+    auto john = EmployeeFactory::new_main_office_employee("John", 123);
 
-    jane.name = "Jane Smith";
-    jane.address->suite = 103;
-
-    std::cout << john << std::endl;
-    std::cout << jane << std::endl;
-    std::cout << "Issue: Outputing memory address instead of values" << std::endl;
-    std::cout << "Issue: Changing the Copy also changes the original" << std::endl;
+    std::cout << *john << std::endl; 
 
     return 0;
 }
