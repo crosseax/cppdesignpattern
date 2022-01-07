@@ -50,6 +50,9 @@ struct Contact {
     }
 };
 
+// how to give a prototype of anything?
+// one idea is to just make a global variable
+Contact main {"", new Address{"123 East Dr", "London", 0}};
 
 
 int main (void)
