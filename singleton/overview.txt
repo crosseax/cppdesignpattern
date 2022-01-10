@@ -1,0 +1,18 @@
+Singleton Overview
+
+Singleton is 
+    a component which is instantiated only once
+
+Motivation
+    
+    For some components it only makes sense to have one instance in the system
+        - database repository, because you dont want to read it a zillion times
+        - object fatory, because factory isnt suppose to have any state
+
+    E.g., the constructor call is expensive
+        - we only do it once
+        - once constructed, we provide everyone with the same instance
+
+    Want to prevent anyone creating additional copies
+    
+    Need to take care of lazy instantiation and thread safety
