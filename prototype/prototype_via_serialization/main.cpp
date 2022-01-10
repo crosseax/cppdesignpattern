@@ -16,7 +16,7 @@
 struct Address {
     std::string street, city;
     int suite;
-    
+
     // default constructor is required for serialization
     Address() {}
 
@@ -154,6 +154,30 @@ int main (void)
 
     auto john = EmployeeFactory::new_main_office_employee("john", 123);
     auto jane = clone(*john);
+
+    jane.name = "Jane";
+    
+    // john needs to be dereference cuz its a pointer,
+    // jane needs not, because it's a reference
+    std::cout << *john << std::endl << jane << std::endl;
+
+    // remember 
+    // if you use copy assignment or copy constructor,
+    // some of these operations are automatically generated
+    // and if they involve pointers, then the pointer is simply going to be copied
+
+    // whereas if you serialize the Address
+    // but you haven't implement the serialization code for the address itself,
+    // the program isn't going to compile
+
+    // So in generall
+    // with serialization, 
+    // you get both serialization and the prototype deisng pattern 
+    // along with some code enforcement
+
+    // learn more about serialization 
+    // because tho the idea is clear
+    // the implementation is still a bit of vague
 
     return 0;
 }
