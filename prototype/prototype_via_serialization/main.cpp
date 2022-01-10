@@ -16,6 +16,9 @@
 struct Address {
     std::string street, city;
     int suite;
+    
+    // default constructor is required for serialization
+    Address() {}
 
     Address (const std::string& street, const std::string& city, int suite)
         : street {street}, city {city}, suite{suite} {}
@@ -30,6 +33,17 @@ struct Address {
            << "; Suite: " << address.suite;
         return os;
     }
+
+    // overall object graph in this case, even the Address, also has to have its own serialization code
+private:
+    friend class boost::serialization::access;
+
+    template <class archive>
+    void serialize(archive& ar, const unsigned version) {
+        ar & street;
+        ar & city;
+        ar & suite; // boost::serialization knows about all the different data types
+    }
 };
 
 // Serialization and Deserialization
@@ -43,7 +57,8 @@ struct Contact {
     // we want to save what the pointer points to
     Address* address;
 
-    Contact() = default;
+    // default constructor is required for serialization
+    Contact() {}
 
     Contact (const std::string& name, Address* address) 
         : name {name}, address {address} {}
@@ -137,6 +152,8 @@ int main (void)
         return result;
     };
 
+    auto john = EmployeeFactory::new_main_office_employee("john", 123);
+    auto jane = clone(*john);
 
     return 0;
 }
