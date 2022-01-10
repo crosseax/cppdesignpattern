@@ -28,8 +28,15 @@ struct Address {
     }
 };
 
+// Serialization and Deserialization
+// when you serialize something, you want to store all the aspects of an object
+// when you deserialize, you want to restore all the aspects of an object
+
 struct Contact {
     std::string name;
+    // the problem is here with the pointer again
+    // we dont want to save just the pointer value
+    // we want to save what the pointer points to
     Address* address;
 
     Contact (const std::string& name, Address* address) 
@@ -51,7 +58,6 @@ struct Contact {
         return os;
     }
 };
-
 
 
 int main (void)
