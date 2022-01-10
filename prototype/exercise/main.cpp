@@ -20,7 +20,10 @@ struct Line {
     }
 
     Line deep_copy() const {
-        // TODO
+        return Line {
+            new Point {start->x, start->y},
+            new Point {end->x, end->y}
+        };
     }
 };
 
