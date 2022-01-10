@@ -77,6 +77,27 @@ private:
     }
 };
 
+// how to give a prototype of anything?
+// one idea is to just make a global variable
+Contact main_proto {"", new Address{"123 East Dr", "London", 0}};
+
+
+// another solution, if you would be more general
+// and hide relative things like constructor or so
+// then you build a prototype factory
+struct EmployeeFactory {
+    static std::unique_ptr<Contact> new_main_office_employee (const std::string name, const int suite) {
+        static Contact p{"", new Address{"123 East Dr", "London", 0}};
+        return new_employee(name, suite, p);
+    } 
+private:
+    static std::unique_ptr<Contact> new_employee (const std::string name, const int suite, const Contact& prototype) {
+        auto result = std::make_unique<Contact> (prototype);
+        result->name = name;
+        result->address->suite = suite;
+        return result;
+    }
+};
 
 
 
