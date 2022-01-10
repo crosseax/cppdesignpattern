@@ -43,6 +43,8 @@ struct Contact {
         //   address {new Address {other.address->street, other.address->city, other.address->suite}} {}
           address {new Address {*other.address}} {}
 
+    ~Contact() { delete address; }
+
     friend std::ostream& operator<< (std::ostream& os, const Contact contact) {
         os << "[Name]: " << contact.name
            << "\n[Address]: " << *contact.address;
