@@ -1,0 +1,19 @@
+Prototype Summary
+
+    To implement a prototype, partially construct an object and store it somehwere
+        
+    Clone the prototype
+        
+        1. Implement your own deep copy functionality;
+            - do it by yourself, for example, by making copy constructor yourself
+            - or making some sort of prototype interface and defining a deep copy member on that interface
+              and then implementing that interface in every single object of the entire hierarchy that you want to copy
+            - this is a relatively complicated way
+        
+        2. Serialize and deserialize
+            - serialization is a very useful way because it traverse the entire object graph
+            - this is a relatively simple way of actually making the deep copy of an object
+
+    Customize the resulting instance
+        - then you can start using your code
+
