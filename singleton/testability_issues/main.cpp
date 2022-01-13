@@ -47,6 +47,30 @@ public:
     }
 };
 
+
+// when you want to test this, all problems show up
+struct SingletonRecordFinder {
+    int total_population(std::vector<std::string> names) {
+        int result{0};
+        for (auto& name : names) {
+            result += SingletonDatabase::get().get_population(name);
+        }
+        return result;
+    }
+};
+// because there is no way to substitute this strongly-tied database
+// the test have to use the values taken from the actual file
+// watch https://www.udemy.com/course/patterns-cplusplus/learn/lecture/7736768#content
+
+// basically, in order to run the test, due to the accessibility of the singleton database
+// the test is going to go through many abundant stages of retrieving the data by yourself(tester per se)
+// including configurations and many other settings
+// this is extremely inconvinient 
+
+// hence such test is not a unit test, but a integration test
+// as a result, there will not be a proper unit test
+// if the data changes, the test is also going to face potential danger
+
 int main (void)
 {
     std::string city = "Tokyo";
