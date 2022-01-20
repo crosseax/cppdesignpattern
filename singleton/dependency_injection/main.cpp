@@ -53,6 +53,21 @@ public:
     }
 };
 
+// now can make fake database where members are predictable
+class DummyDatabase : public Database {
+    std::map<std::string, int> capitals;
+public:
+    DummyDatabase() {
+        capitals["alpha"] = 1;
+        capitals["beta"] = 2;
+        capitals["gamma"] = 3;
+    }
+
+    int get_population(const std::string& name) override {
+        return capitals[name];
+    }
+};
+
 int main (void)
 {
     std::string city = "Tokyo";
