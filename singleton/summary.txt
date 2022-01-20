@@ -1,0 +1,15 @@
+Singleton 
+
+Making a "safe" singleton is easy
+    Hide or Delete the type's constructor, copy constructor, and copy assignment operators
+    Create a static method that returns a reference to a static member
+        - which you either keeping as part of the overall type or you just stick it right inside the method
+        - since C++11, this initializaton is thread safe
+
+Types with "hard" dependencies on singletons are difficult to test
+    Direct dependency is not a good idea
+    Cannot decouple the singleton and supply a fake object
+
+Instead of directly using a singleton, consider depending on an abstraction(eg. an interface)
+
+Consider defining singleton lifetime in DI (Dependency Injection) container
