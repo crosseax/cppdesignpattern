@@ -68,6 +68,23 @@ public:
     }
 };
 
+// now we need a configurable record finder
+struct ConfigurableRecordFinder {
+    Database& db;
+
+    ConfigurableRecordFinder(Database& db) : db{db} {}
+
+    int total_population(std::vector<std::string> names) {
+        int result{0};
+        for (auto& name : names) {
+            result += db.get_population(name);
+        }
+        return result;
+    }
+};
+
+// Now we can write better test, like unit test
+
 int main (void)
 {
     std::string city = "Tokyo";
