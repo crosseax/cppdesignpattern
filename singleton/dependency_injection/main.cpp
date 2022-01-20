@@ -13,11 +13,17 @@
 
 #include <boost/lexical_cast.hpp>
 
+// creating a interface for Singleton Database
+class Database {
+public:
+    virtual int get_population(const std::string& name) = 0;
+};
+
 // we wanna read the txt file to database
 // for us, it only make sense to have one instance of such database
 // because you dont want to replicate the information again and again
 // So, we're going to make a singleton database effectively
-class SingletonDatabase {
+class SingletonDatabase : public Database {
     SingletonDatabase() {
         std::cout << "Initializing database\n";
         std::ifstream ifs ("capitals.txt");
