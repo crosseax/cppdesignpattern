@@ -3,6 +3,8 @@
 struct SingletonTester {
     template <typename T>
     bool is_singleton(std::function<T* ()> factory) {
-        // todo
+        T* a = factory();
+        T* b = factory();
+        return a == b;
     }
 };
